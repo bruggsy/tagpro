@@ -1,18 +1,20 @@
 (function() {
     'use strict';
-    $.ajaxSetup({ cache: false});
-    var getData = function(action)  {
-	$.load(
-	action('a')
+    console.log('Loaded /r/place Cooridination Script');
+    $.ajaxSetup({ cache: false });
+    var getData = function(action) {
+        $.getJSON('https://raw.githubusercontent.com/bruggsy/tagpro/master/T.json', function(data) {
+            action(data);
+        });
     },
-	test = false;
+        test = true;
     r.placeModule("placePaintBot", function(loader) {
         var c = loader("canvasse"),
             client = loader("client"),
             color;
-	var draw = function(options){
-	    var = r.place;
-	    if (!test && p.getCooldownTimeRemaining() > 200) {
+        var draw = function(options) {
+            var p = r.place;
+            if (!test && p.getCooldownTimeRemaining() > 200) {
                 return;
             }
             var image_data = [],
@@ -22,7 +24,7 @@
                     colorsABGR[i] = client.getPaletteColorABGR(i);
                 }
             }
-	    for (var relY = 0; relY < options.image.length; relY++) {
+            for (var relY = 0; relY < options.image.length; relY++) {
                 var row = options.image[relY];
                 for (var relX = 0; relX < row.length; relX++) {
                     color = options.colors[row[relX]] || -1;
@@ -46,8 +48,7 @@
                 if(color == 10){
                     continue;
                 }
-                // if (currentColor != color) {
-                if (false) {		
+                if (currentColor != color) {
                     console.log("set color for", x, y, "old", currentColor, "new", color);
                     if(test){
                         c.drawTileAt(x, y, colorsABGR[color]);
@@ -66,5 +67,3 @@
         }, test ? 100 : 1500);
     });
 })();
-
-   
